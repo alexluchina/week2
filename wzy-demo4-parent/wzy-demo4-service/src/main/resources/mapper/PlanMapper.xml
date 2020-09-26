@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.alex.week3.dao.PlanMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.alex.week3.pojo.Plan">
+        <id column="id" property="id" />
+        <result column="plan_name" property="planName" />
+        <result column="amount" property="amount" />
+        <result column="manager" property="manager" />
+        <result column="description" property="description" />
+        <result column="dept_id" property="deptId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, plan_name, amount, manager, description, dept_id
+    </sql>
+    <select id="getList" resultType="com.alex.week3.entity.PlanVO">
+        SELECT
+            t_plan.id,
+            t_plan.plan_name AS planName,
+            t_plan.amount,
+            t_plan.manager,
+            t_plan.description,
+            t_department.name AS deptName
+        FROM
+            t_plan
+                INNER JOIN t_department ON t_plan.dept_id = t_department.id
+        ${ew.customSqlSegment}
+    </select>
+</mapper>
